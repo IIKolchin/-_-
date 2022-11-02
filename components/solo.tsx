@@ -1,5 +1,10 @@
 import styled from '@emotion/styled';
-import img from '../images/48820661.png';
+import Radio from './radio';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../store/store';
+import { setValueCountItems, setValueValues } from '../store/radioSlice';
+import { setButtonAsc, setButtonDesc } from '../store/buttonsSlice';
+import Link from 'next/link';
 
 export interface Props {
   isLong?: boolean;
@@ -8,11 +13,22 @@ export interface Props {
 }
 
 export default function Solo() {
+  const dispatch = useDispatch();
+  const valueCountItems = useSelector(
+    (state: AppState) => state.radio.valueCountItems
+  );
+  const valueValues = useSelector((state: AppState) => state.radio.valueValues);
+  const isButtonAsc = useSelector(
+    (state: AppState) => state.buttons.isButtonAsc
+  );
+  const isButtonDesc = useSelector(
+    (state: AppState) => state.buttons.isButtonDesc
+  );
+
   const Section = styled.section`
     background-image: url('https://i.ibb.co/yRqswvT/4882066-1.png');
     display: flex;
     position: relative;
-    /* background-color: url(${img as unknown as string}); */
     background-size: cover;
     width: 980px;
     height: 810px;
@@ -55,65 +71,45 @@ export default function Solo() {
     margin-bottom: 16px;
   `;
 
-  const Checkbox = styled.div`
+  const RadioContainer = styled.div`
     display: flex;
-    margin: ${(props: Props) => (props.isLong ? '0 84px 0' : '0 128px 0')};
-    justify-content: space-around;
-  `;
-
-  const Input = styled.input`
-    -webkit-appearance: none;
-
-    -moz-appearance: none;
-    appearance: none;
-    display: inline-block;
-    width: 23px;
-    height: 23px;
-    background-clip: content-box;
-    border-radius: 23px;
-    background-color: #fff;
-    margin-left: 15px;
-    margin-right: 15px;
-
-    &:checked {
-      background-color: #104987;
-      z-index: 1;
-    }
-  `;
-
-  const Group = styled.div`
-    display: flex;
-    flex-direction: column;
-  `;
-
-  const Label = styled.label`
-    margin-bottom: 8px;
-    text-align: center;
+    width: ${(props: Props) => (props.isLong ? '531px' : '366px')};
+    margin: ${(props: Props) => (props.isLong ? '0 auto 0' : '0 auto 0')};
+    justify-content: space-between;
   `;
 
   const Stripe = styled.div`
-    width: ${(props: Props) => (props.isLong ? '531px' : '366px')};
-    height: 21px;
+    width: ${(props: Props) => (props.isLong ? '526px' : '366px')};
+    height: 22px;
+    z-index: 9;
     border-radius: 23px;
     background-color: #ffd748;
     position: absolute;
-    top: ${(props: Props) => (props.isLong ? '405px' : '238px')};
+    top: ${(props: Props) => (props.isLong ? '400px' : '235px')};
     left: ${(props: Props) => (props.isLong ? '223px' : '305px')};
   `;
 
   const ButtonsGroup = styled.div`
-    display: flex;
-    justify-content: center;
+
+    display: grid;
+    /* grid-template-columns: 1fr 1fr;
+  grid-template-rows:  1fr 1fr; */
+    grid-template-areas:
+      '. a b .'
+      '.  c c .';
+    /* justify-content: center; */
+    /* justify-items: center; */
   `;
 
   const Button = styled.button`
-    all: unset;
+    border: none;
     cursor: pointer;
     text-align: center;
     font-family: 'Calibri';
     font-style: normal;
     font-weight: 700;
     font-size: 32px;
+    z-index: 10;
     line-height: 39px;
     width: ${(props: Props) => (props.ascDesc ? 'auto' : '260px')};
     height: ${(props: Props) => (props.ascDesc ? '44px' : '60px')};
@@ -121,72 +117,110 @@ export default function Solo() {
       props.ascDesc ? '#FFD748' : '#38DF7A'};
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    padding: 0 24px;
+    /* padding: 0 24px; */
     margin-top: 73px;
     margin-left: ${(props: Props) => (props.ascDesc ? '0' : '220px')};
     margin-right: ${(props: Props) => (props.ascDesc ? '0' : '220px')};
 
-    &:first-child {
-      margin-right: 36px;
+    &:first-of-type {
+      margin-left: 80px;
+      width: 271px;
+      grid-area: a;
+    }
+
+    &:nth-of-type(2) {
+      width: 234px;
+      margin-right: 60px;
+      grid-area: b;
+    }
+    &:nth-of-type(3) {
+      color: #fff;
+      grid-area: c;
     }
   `;
+
+  function chengeValueCountItems(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setValueCountItems(e.target.value));
+  }
+  function chengeValueValues(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setValueValues(e.target.value));
+  }
+
+  const counts = [
+    { name: '2', checked: true },
+    { name: '3', checked: false },
+    { name: '4', checked: false },
+    { name: '5', checked: false },
+  ];
+
+  const values = [
+    { name: 'A', checked: true },
+    { name: '9', checked: false },
+    { name: '19', checked: false },
+    { name: '50', checked: false },
+    { name: '99', checked: false },
+    { name: '999', checked: false },
+  ];
+
+  const play = () => {
+    console.log('play');
+  };
+
+  const ascending = () => {
+    dispatch(setButtonAsc(true));
+    dispatch(setButtonDesc(false));
+  };
+
+  const descending = () => {
+    dispatch(setButtonDesc(true));
+    dispatch(setButtonAsc(false));
+  };
 
   return (
     <Section>
       <Div>
         <H3>Количество предметов</H3>
         <Stripe />
-        <Checkbox>
-          <Group>
-            <Label>2</Label>
-            <Input type='checkbox' name='2' checked />
-          </Group>
-          <Group>
-            <Label>3</Label>
-            <Input type='checkbox' name='3' />
-          </Group>
-          <Group>
-            <Label>4</Label>
-            <Input type='checkbox' name='4' />
-          </Group>
-          <Group>
-            <Label>5</Label>
-            <Input type='checkbox' />
-          </Group>
-        </Checkbox>
+        <RadioContainer>
+          {counts.map((item, i) => (
+            <Radio
+              key={i}
+              isChecked={valueCountItems === item.name}
+              onChange={chengeValueCountItems}
+              value={item.name}
+              id={item.name}
+              name='count'
+            />
+          ))}
+        </RadioContainer>
         <H3>Значения</H3>
         <Stripe isLong />
-        <Checkbox isLong>
-          <Group>
-            <Label>A</Label>
-            <Input type='checkbox' name='1' checked />
-          </Group>
-          <Group>
-            <Label>9</Label>
-            <Input type='checkbox' name='2' />
-          </Group>
-          <Group>
-            <Label>19</Label>
-            <Input type='checkbox' name='3' />
-          </Group>
-          <Group>
-            <Label>50</Label>
-            <Input type='checkbox' name='4' />
-          </Group>
-          <Group>
-            <Label>99</Label>
-            <Input type='checkbox' />
-          </Group>
-          <Group>
-            <Label>999</Label>
-            <Input type='checkbox' />
-          </Group>
-        </Checkbox>
+        <RadioContainer isLong>
+          {values.map((item, i) => (
+            <Radio
+              key={i}
+              isChecked={valueValues === item.name}
+              onChange={chengeValueValues}
+              value={item.name}
+              id={item.name}
+              name='values'
+            />
+          ))}
+        </RadioContainer>
         <ButtonsGroup>
-          <Button ascDesc>По возрастанию</Button>
-          <Button ascDesc>По убыванию</Button>
+          <Button onClick={ascending} disabled={isButtonAsc} ascDesc>
+            По возрастанию
+          </Button>
+          <Button onClick={descending} disabled={isButtonDesc} ascDesc>
+            По убыванию
+          </Button>
+          <Button><Link href='/game'>Играть</Link></Button>
         </ButtonsGroup>
-        <Button>Играть</Button>
+  
+          
+          
+          
+      
       </Div>
     </Section>
   );
