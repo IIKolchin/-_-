@@ -1,19 +1,10 @@
 import styled from '@emotion/styled';
-import { Props } from '../components/solo';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import DraggableItem, { TItem } from '../components/draggable-item';
-import { useDrop } from 'react-dnd';
-import { useEffect, useState } from 'react';
+import DraggableItem from '../components/draggable-item';
+import { useEffect } from 'react';
 import DropContainer from '../components/drop-container';
-import {
-  generateCharArray,
-  getRandom,
-  imgArr2,
-  imgArr3,
-  imgArr4,
-  randomArr,
-} from '../utils';
+import { generateCharArray, randomArr } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setDraggedElements,
@@ -22,16 +13,14 @@ import {
 } from '../store/elementsSlice';
 import { AppState } from '../store/store';
 import Modal from '../components/modal';
-import { url } from 'inspector';
 
-export default function Game() {
+const Game = () => {
   const elements = useSelector((state: AppState) => state.elements.elements);
   const draggedElements = useSelector(
     (state: AppState) => state.elements.draggedElements
   );
   const sortArr = useSelector((state: AppState) => state.elements.sortArr);
   const theme = useSelector((state: AppState) => state.theme.theme);
-  const image = useSelector((state: AppState) => state.theme.imgArr);
   const dispatch = useDispatch();
 
   const valueCountItems = useSelector(
@@ -47,8 +36,7 @@ export default function Game() {
   const count = +valueCountItems + 1;
 
   useEffect(() => {
-
-      const arr =
+    const arr =
       valueValues === '9'
         ? [...randomArr(count, 1, 9, 1, theme!)]
         : valueValues === '19'
@@ -60,8 +48,6 @@ export default function Game() {
         : valueValues === '999'
         ? [...randomArr(count, 100, 999, 1, theme!)]
         : [...generateCharArray(count, 1, theme!)];
- 
-    
 
     if (isButtonAsc) {
       if (valueValues === 'A') {
@@ -165,7 +151,7 @@ export default function Game() {
 
   return (
     <>
-      {theme && image && (
+      {theme && (
         <Section>
           <DndProvider backend={HTML5Backend}>
             {elements.length !== 0 &&
@@ -183,4 +169,6 @@ export default function Game() {
       )}
     </>
   );
-}
+};
+
+export default Game;

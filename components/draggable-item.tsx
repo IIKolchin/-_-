@@ -1,16 +1,9 @@
 import styled from '@emotion/styled';
 import { useDrag } from 'react-dnd';
-import { Props } from './solo';
 import { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../store/store';
-
-export type TItem = { id: number; value: number; image: string };
-
-export type TItems = {
-  data: TItem;
-  isSmall?: boolean;
-};
+import { Props, TItems } from '../types';
 
 const DraggableItem: FC<TItems> = ({ data, isSmall }) => {
   const { id, image, value } = data;
@@ -27,12 +20,11 @@ const DraggableItem: FC<TItems> = ({ data, isSmall }) => {
 
   const Item = styled.div`
     position: ${() => (!isSmall ? 'absolute' : null)};
-
     width: ${() => (isSmall ? '131px' : '158px')};
     height: ${() => (isSmall ? '131px' : '158px')};
     background-image: url(${(props: Props) => props.img});
-        background-size: contain;
-background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,16 +119,8 @@ background-repeat: no-repeat;
     }
 
     &:nth-of-type(5) {
-      top: ${() =>
-        !isSmall && valueCountItems === '5'
-          ? '240px'
-          : null};
-      left: ${() =>
-        !isSmall && valueCountItems === '5'
-          ? '740px'
-          : null};
-          /* background-size: cover; */
-          object-fit: cover;
+      top: ${() => (!isSmall && valueCountItems === '5' ? '240px' : null)};
+      left: ${() => (!isSmall && valueCountItems === '5' ? '740px' : null)};
     }
   `;
 

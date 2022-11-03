@@ -5,15 +5,10 @@ import { AppState } from '../store/store';
 import { setValueCountItems, setValueValues } from '../store/radioSlice';
 import { setButtonAsc, setButtonDesc } from '../store/buttonsSlice';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { setTheme } from '../store/themeSlice';
 import { getRandom } from '../utils';
+import { Props } from '../types';
 
-export interface Props {
-  isLong?: boolean;
-  ascDesc?: boolean;
-  img?: string;
-}
 
 const Section = styled.section`
   background-image: url('https://i.ibb.co/yRqswvT/4882066-1.png');
@@ -135,7 +130,7 @@ const Play = styled.div`
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
 `;
 
-export default function Solo() {
+const Solo = () => {
   const dispatch = useDispatch();
   const valueCountItems = useSelector(
     (state: AppState) => state.radio.valueCountItems
@@ -232,3 +227,5 @@ export default function Solo() {
     </Section>
   );
 }
+
+export default Solo;

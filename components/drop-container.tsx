@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../store/store';
+import { TDropsContainerProps } from '../types';
 
-type TDropsContainerProps = {
-  children: ReactNode;
-  onDropHandler: (id: unknown) => void;
-};
+
 
 const DropContainer: FC<TDropsContainerProps> = ({
   children,
@@ -16,9 +14,6 @@ const DropContainer: FC<TDropsContainerProps> = ({
   const theme = useSelector((state: AppState) => state.theme.theme);
   const isButtonAsc = useSelector(
     (state: AppState) => state.buttons.isButtonAsc
-  );
-  const isButtonDesc = useSelector(
-    (state: AppState) => state.buttons.isButtonDesc
   );
   const [, dropTarget] = useDrop({
     accept: 'item',
@@ -38,7 +33,6 @@ const DropContainer: FC<TDropsContainerProps> = ({
 
   const Container = styled.div`
     background-image: url(${img});
-    /* object-fit: cover; */
     display: flex;
     flex-direction: ${() => (isButtonAsc ? 'row' : 'row-reverse')};
     background-size: cover;

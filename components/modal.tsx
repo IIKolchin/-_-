@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import Portal from '../HOC/portal';
 
