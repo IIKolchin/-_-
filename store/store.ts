@@ -3,6 +3,7 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import radioSlice from './radioSlice';
 import buttonsSlice from './buttonsSlice';
+import themeSlice from './themeSlice';
 
 const makeStore = () =>
   configureStore({
@@ -10,6 +11,7 @@ const makeStore = () =>
       elements: elementsSlice,
       radio: radioSlice,
       buttons: buttonsSlice,
+      theme: themeSlice,
     },
     devTools: true,
   });

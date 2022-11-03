@@ -23,14 +23,14 @@ const elementsSlice = createSlice({
       },
 
   },
-  extraReducers: {
-    [HYDRATE]: (state: any, action: { payload: { elements: any; }; }) => {
-      return {
-        ...state,
-        ...action.payload.elements,
-      };
-    },
-  },
+  // extraReducers: {
+  //   [HYDRATE]: (state: any, action: { payload: { elements: any; }; }) => {
+  //     return {
+  //       ...state,
+  //       ...action.payload.elements,
+  //     };
+  //   },
+  // },
 });
 
 export const { setElements, setDraggedElements, setSortArr } = elementsSlice.actions;

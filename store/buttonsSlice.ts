@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const buttonsSlice = createSlice({
-  name: 'radio',
+  name: 'buttons',
   initialState: {
     isButtonAsc:  true,
     isButtonDesc:  false,

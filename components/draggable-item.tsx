@@ -31,7 +31,8 @@ const DraggableItem: FC<TItems> = ({ data, isSmall }) => {
     width: ${() => (isSmall ? '131px' : '158px')};
     height: ${() => (isSmall ? '131px' : '158px')};
     background-image: url(${(props: Props) => props.img});
-    background-size: cover;
+        background-size: contain;
+background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,6 +135,8 @@ const DraggableItem: FC<TItems> = ({ data, isSmall }) => {
         !isSmall && valueCountItems === '5'
           ? '740px'
           : null};
+          /* background-size: cover; */
+          object-fit: cover;
     }
   `;
 

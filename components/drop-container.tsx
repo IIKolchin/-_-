@@ -13,7 +13,7 @@ const DropContainer: FC<TDropsContainerProps> = ({
   children,
   onDropHandler,
 }): JSX.Element => {
-
+  const theme = useSelector((state: AppState) => state.theme.theme);
   const isButtonAsc = useSelector(
     (state: AppState) => state.buttons.isButtonAsc
   );
@@ -27,11 +27,20 @@ const DropContainer: FC<TDropsContainerProps> = ({
     },
   });
 
+  const img =
+    theme === '1'
+      ? 'https://i.ibb.co/DbTPwTj/Group-9032.png'
+      : theme === '2'
+      ? 'https://i.ibb.co/CnJHLJD/Group-9046.png'
+      : theme === '3'
+      ? 'https://i.ibb.co/bRYR5rQ/Group-9047.png'
+      : 'https://i.ibb.co/xqGnmCw/Group-9044-1-1.png';
+
   const Container = styled.div`
-    background-image: url('https://i.ibb.co/DbTPwTj/Group-9032.png');
+    background-image: url(${img});
     /* object-fit: cover; */
     display: flex;
-    flex-direction: ${() => isButtonAsc ? 'row' : 'row-reverse'};
+    flex-direction: ${() => (isButtonAsc ? 'row' : 'row-reverse')};
     background-size: cover;
     padding-top: 46px;
     padding-left: 30px;

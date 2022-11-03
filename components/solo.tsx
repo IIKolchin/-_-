@@ -5,12 +5,135 @@ import { AppState } from '../store/store';
 import { setValueCountItems, setValueValues } from '../store/radioSlice';
 import { setButtonAsc, setButtonDesc } from '../store/buttonsSlice';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { setTheme } from '../store/themeSlice';
+import { getRandom } from '../utils';
 
 export interface Props {
   isLong?: boolean;
   ascDesc?: boolean;
   img?: string;
 }
+
+const Section = styled.section`
+  background-image: url('https://i.ibb.co/yRqswvT/4882066-1.png');
+  display: flex;
+  position: relative;
+  background-size: cover;
+  width: 980px;
+  height: 810px;
+  margin-bottom: 91px;
+`;
+
+const Div = styled.div`
+  background-color: #fff;
+  width: 699px;
+  height: 660px;
+  margin: 91px auto 59px;
+  border-radius: 40px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 91px;
+    left: 139px;
+    right: 140px;
+    bottom: 59px;
+    border-radius: 40px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #7f75f0, #101f32);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+`;
+
+const H3 = styled.p`
+  margin-top: 57px;
+  text-align: center;
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 44px;
+  margin-bottom: 16px;
+
+  &:nth-of-type(2) {
+    margin-top: 53px;
+  }
+`;
+const RadioContainer = styled.div`
+  display: flex;
+  width: ${(props: Props) => (props.isLong ? '531px' : '366px')};
+  margin: ${(props: Props) => (props.isLong ? '0 auto 0' : '0 auto 0')};
+  justify-content: space-between;
+`;
+
+const Stripe = styled.div`
+  width: ${(props: Props) => (props.isLong ? '524px' : '366px')};
+  height: 22px;
+  z-index: 9;
+  border-radius: 23px;
+  background-color: #ffd748;
+  position: absolute;
+  top: ${(props: Props) => (props.isLong ? '401px' : '237px')};
+  left: ${(props: Props) => (props.isLong ? '223px' : '306px')};
+`;
+
+const ButtonsGroup = styled.div`
+  display: flex;
+`;
+
+const Button = styled.button`
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  z-index: 10;
+  height: 44px;
+  padding: 0 24px;
+  line-height: 39px;
+  background-color: #ffd748;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  margin-top: 73px;
+
+  &:first-of-type {
+    margin-left: 80px;
+    margin-right: 36px;
+    width: 271px;
+  }
+
+  &:nth-of-type(2) {
+    width: 234px;
+    margin-right: 60px;
+  }
+`;
+
+const Play = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #38df7a;
+  position: relative;
+  z-index: 100;
+  width: 260px;
+  height: 60px;
+  margin: 100px 220px 52px;
+  font-family: 'Helvetica';
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 44px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+`;
 
 export default function Solo() {
   const dispatch = useDispatch();
@@ -24,120 +147,6 @@ export default function Solo() {
   const isButtonDesc = useSelector(
     (state: AppState) => state.buttons.isButtonDesc
   );
-
-  const Section = styled.section`
-    background-image: url('https://i.ibb.co/yRqswvT/4882066-1.png');
-    display: flex;
-    position: relative;
-    background-size: cover;
-    width: 980px;
-    height: 810px;
-    margin-bottom: 91px;
-  `;
-
-  const Div = styled.div`
-    background-color: #fff;
-    width: 699px;
-    height: 660px;
-    margin: 91px auto 59px;
-    border-radius: 40px;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 91px;
-      left: 139px;
-      right: 140px;
-      bottom: 59px;
-      border-radius: 40px;
-      padding: 20px;
-      background: linear-gradient(to bottom, #7f75f0, #101f32);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-    }
-  `;
-
-  const H3 = styled.p`
-    margin-top: 57px;
-    text-align: center;
-    font-family: 'Helvetica';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 44px;
-    margin-bottom: 16px;
-  `;
-
-  const RadioContainer = styled.div`
-    display: flex;
-    width: ${(props: Props) => (props.isLong ? '531px' : '366px')};
-    margin: ${(props: Props) => (props.isLong ? '0 auto 0' : '0 auto 0')};
-    justify-content: space-between;
-  `;
-
-  const Stripe = styled.div`
-    width: ${(props: Props) => (props.isLong ? '526px' : '366px')};
-    height: 22px;
-    z-index: 9;
-    border-radius: 23px;
-    background-color: #ffd748;
-    position: absolute;
-    top: ${(props: Props) => (props.isLong ? '400px' : '235px')};
-    left: ${(props: Props) => (props.isLong ? '223px' : '305px')};
-  `;
-
-  const ButtonsGroup = styled.div`
-
-    display: grid;
-    /* grid-template-columns: 1fr 1fr;
-  grid-template-rows:  1fr 1fr; */
-    grid-template-areas:
-      '. a b .'
-      '.  c c .';
-    /* justify-content: center; */
-    /* justify-items: center; */
-  `;
-
-  const Button = styled.button`
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    font-family: 'Calibri';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    z-index: 10;
-    line-height: 39px;
-    width: ${(props: Props) => (props.ascDesc ? 'auto' : '260px')};
-    height: ${(props: Props) => (props.ascDesc ? '44px' : '60px')};
-    background-color: ${(props: Props) =>
-      props.ascDesc ? '#FFD748' : '#38DF7A'};
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    /* padding: 0 24px; */
-    margin-top: 73px;
-    margin-left: ${(props: Props) => (props.ascDesc ? '0' : '220px')};
-    margin-right: ${(props: Props) => (props.ascDesc ? '0' : '220px')};
-
-    &:first-of-type {
-      margin-left: 80px;
-      width: 271px;
-      grid-area: a;
-    }
-
-    &:nth-of-type(2) {
-      width: 234px;
-      margin-right: 60px;
-      grid-area: b;
-    }
-    &:nth-of-type(3) {
-      color: #fff;
-      grid-area: c;
-    }
-  `;
 
   function chengeValueCountItems(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setValueCountItems(e.target.value));
@@ -162,8 +171,8 @@ export default function Solo() {
     { name: '999', checked: false },
   ];
 
-  const play = () => {
-    console.log('play');
+  const play = async () => {
+    await dispatch(setTheme(getRandom(['1', '2', '3', '4'])));
   };
 
   const ascending = () => {
@@ -208,19 +217,17 @@ export default function Solo() {
           ))}
         </RadioContainer>
         <ButtonsGroup>
-          <Button onClick={ascending} disabled={isButtonAsc} ascDesc>
+          <Button onClick={ascending} disabled={isButtonAsc}>
             По возрастанию
           </Button>
-          <Button onClick={descending} disabled={isButtonDesc} ascDesc>
+          <Button onClick={descending} disabled={isButtonDesc}>
             По убыванию
           </Button>
-          <Button><Link href='/game'>Играть</Link></Button>
         </ButtonsGroup>
-  
-          
-          
-          
-      
+
+        <Link onClick={play} href='/game'>
+          <Play>Играть</Play>
+        </Link>
       </Div>
     </Section>
   );

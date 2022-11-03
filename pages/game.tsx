@@ -6,7 +6,14 @@ import DraggableItem, { TItem } from '../components/draggable-item';
 import { useDrop } from 'react-dnd';
 import { useEffect, useState } from 'react';
 import DropContainer from '../components/drop-container';
-import { generateCharArray, randomArr } from '../utils';
+import {
+  generateCharArray,
+  getRandom,
+  imgArr2,
+  imgArr3,
+  imgArr4,
+  randomArr,
+} from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setDraggedElements,
@@ -23,6 +30,8 @@ export default function Game() {
     (state: AppState) => state.elements.draggedElements
   );
   const sortArr = useSelector((state: AppState) => state.elements.sortArr);
+  const theme = useSelector((state: AppState) => state.theme.theme);
+  const image = useSelector((state: AppState) => state.theme.imgArr);
   const dispatch = useDispatch();
 
   const valueCountItems = useSelector(
@@ -37,20 +46,29 @@ export default function Game() {
   );
   const count = +valueCountItems + 1;
 
-
   useEffect(() => {
-    const arr = valueValues === '9' ? [...randomArr(count, 1, 9, 1)] : 
-    valueValues === '19' ? [...randomArr(count, 10, 19, 1)] :
-    valueValues === '50' ? [...randomArr(count, 20, 50, 1)] :
-    valueValues === '99' ? [...randomArr(count, 51, 99, 1)] :
-    valueValues === '999' ? [...randomArr(count, 100, 999, 1)] :
-    [...generateCharArray(count, 1)];
+
+      const arr =
+      valueValues === '9'
+        ? [...randomArr(count, 1, 9, 1, theme!)]
+        : valueValues === '19'
+        ? [...randomArr(count, 10, 19, 1, theme!)]
+        : valueValues === '50'
+        ? [...randomArr(count, 20, 50, 1, theme!)]
+        : valueValues === '99'
+        ? [...randomArr(count, 51, 99, 1, theme!)]
+        : valueValues === '999'
+        ? [...randomArr(count, 100, 999, 1, theme!)]
+        : [...generateCharArray(count, 1, theme!)];
+ 
+    
 
     if (isButtonAsc) {
-
       if (valueValues === 'A') {
-        const sortAscArray = [...arr].sort((a, b) => a.value.localeCompare(b.value));
-         const firstDropAcs = sortAscArray.splice(0, 1);
+        const sortAscArray = [...arr].sort((a, b) =>
+          a.value.localeCompare(b.value)
+        );
+        const firstDropAcs = sortAscArray.splice(0, 1);
         dispatch(setSortArr(sortAscArray));
         dispatch(setSortArr(sortAscArray));
         const randArr = arr.filter(
@@ -59,7 +77,9 @@ export default function Game() {
         dispatch(setElements(randArr));
         dispatch(setDraggedElements(firstDropAcs));
       } else {
-        const sortAscArray = [...arr].sort((a, b) => Number(a.value) - Number(b.value));
+        const sortAscArray = [...arr].sort(
+          (a, b) => Number(a.value) - Number(b.value)
+        );
         const firstDropAcs = sortAscArray.splice(0, 1);
         dispatch(setSortArr(sortAscArray));
         const randArr = arr.filter(
@@ -71,8 +91,10 @@ export default function Game() {
     }
 
     if (isButtonDesc) {
-      if(valueValues === 'A') {
-        const sortDescArray = [...arr].sort((a, b) => b.value.localeCompare(a.value));
+      if (valueValues === 'A') {
+        const sortDescArray = [...arr].sort((a, b) =>
+          b.value.localeCompare(a.value)
+        );
         const firstDropDesc = sortDescArray.splice(0, 1);
         dispatch(setSortArr(sortDescArray));
         const randArr = arr.filter(
@@ -81,7 +103,9 @@ export default function Game() {
         dispatch(setElements(randArr));
         dispatch(setDraggedElements(firstDropDesc));
       } else {
-        const sortDescArray = [...arr].sort((a, b) => Number(b.value) - Number(a.value));
+        const sortDescArray = [...arr].sort(
+          (a, b) => Number(b.value) - Number(a.value)
+        );
         const firstDropDesc = sortDescArray.splice(0, 1);
         dispatch(setSortArr(sortDescArray));
         const randArr = arr.filter(
@@ -90,10 +114,8 @@ export default function Game() {
         dispatch(setElements(randArr));
         dispatch(setDraggedElements(firstDropDesc));
       }
-
     }
   }, [dispatch]);
-
 
   const handleDrop = (itemId: any) => {
     const dropItem = elements.filter((element) => element.id === itemId.id)[0];
@@ -114,8 +136,25 @@ export default function Game() {
     }
   };
 
+  const img =
+    isButtonAsc && theme === '1'
+      ? 'https://i.ibb.co/wW8FpL9/6.png'
+      : isButtonAsc && theme === '2'
+      ? 'https://i.ibb.co/PDx9Jsm/image.png'
+      : isButtonAsc && theme === '3'
+      ? 'https://i.ibb.co/LSrjHxG/2.png'
+      : isButtonAsc && theme === '4'
+      ? 'https://i.ibb.co/4Rrp1v4/4.png'
+      : isButtonDesc && theme === '1'
+      ? 'https://i.ibb.co/Kw6x5QF/7.png'
+      : isButtonDesc && theme === '2'
+      ? 'https://i.ibb.co/0YMqyW6/1.png'
+      : isButtonDesc && theme === '3'
+      ? 'https://i.ibb.co/FJpxsD0/3.png'
+      : 'https://i.ibb.co/6PfkZsQ/5.png';
+
   const Section = styled.section`
-    background-image: url('https://i.ibb.co/QdKF3Dz/2-1.png');
+    background-image: url(${img});
     display: flex;
     position: relative;
     background-size: cover;
@@ -124,26 +163,24 @@ export default function Game() {
     margin-bottom: 91px;
   `;
 
-  const Direction = styled.div`
-    width: 358px;
-    height: 68px;
-    background-image: ${() => isButtonAsc? url('')}
-  `
-
   return (
-    <Section>
-      <DndProvider backend={HTML5Backend}>
-        {elements.length !== 0 &&
-          elements.map((item, i) => {
-            return <DraggableItem key={i} data={item} />;
-          })}
-        <DropContainer onDropHandler={handleDrop}>
-          {draggedElements.map((item, i) => (
-            <DraggableItem key={i} data={item} isSmall />
-          ))}
-        </DropContainer>
-      </DndProvider>
-      {elements.length === 0 && <Modal/>}
-    </Section>
+    <>
+      {theme && image && (
+        <Section>
+          <DndProvider backend={HTML5Backend}>
+            {elements.length !== 0 &&
+              elements.map((item, i) => {
+                return <DraggableItem key={i} data={item} />;
+              })}
+            <DropContainer onDropHandler={handleDrop}>
+              {draggedElements.map((item, i) => (
+                <DraggableItem key={i} data={item} isSmall />
+              ))}
+            </DropContainer>
+          </DndProvider>
+          {elements.length === 0 && <Modal />}
+        </Section>
+      )}
+    </>
   );
 }
