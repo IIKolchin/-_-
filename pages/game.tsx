@@ -101,7 +101,7 @@ const Game = () => {
         dispatch(setDraggedElements(firstDropDesc));
       }
     }
-  }, [dispatch]);
+  }, [count, dispatch, isButtonAsc, isButtonDesc, theme, valueValues]);
 
   const handleDrop = (itemId: any) => {
     const dropItem = elements.filter((element) => element.id === itemId.id)[0];

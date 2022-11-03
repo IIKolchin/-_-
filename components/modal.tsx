@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import Portal from '../HOC/portal';
-
 import Link from 'next/link';
 
 const ModalContainer = styled.div`
@@ -12,6 +11,7 @@ const ModalContainer = styled.div`
   top: 90px;
   left: 60px;
 `;
+
 const Overlay = styled.div`
   z-index: 9;
   background: rgba(32, 21, 54, 0.6);
@@ -22,12 +22,13 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
 `;
+
 const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  background-color: #2BD600;
+  background-color: #2bd600;
   position: absolute;
   top: 460px;
   left: 310px;
