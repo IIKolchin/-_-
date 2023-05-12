@@ -1,38 +1,27 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Simulator Order Game
+![alt text](https://i.ibb.co/zGVCT1k/2023-05-12-15-45-19.png)
+![alt text](https://i.ibb.co/6PwQPRN/2023-05-12-15-45-37.png)
 
-## Getting Started
+## Overview
+You need to arrange the objects in the correct order: ascending or descending. The player needs to move all the objects to their places with the mouse.
+If the player releases the item without putting it anywhere, it returns to its place.
+If the player puts on the wrong place, then the item is returned to its place.
 
-First, run the development server:
+## Functional
+* Taking an item
+* Item Return / Wrong Answer
+* Correct location of the answer
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Technologies used
+* TypeScript
+* React
+* Next.js
+* Redux
+* React DND
+* CSS Modules
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Launch
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# -_-
->>>>>>> 9e583e8be8f004e555a3793595f2d595b4cfec98
+In the project folder you can run:
+### `npm install && npm start`
+Opens [http://localhost:3000 ](http://localhost:3000 ) to view it in the browser.
